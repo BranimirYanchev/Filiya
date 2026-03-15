@@ -169,7 +169,7 @@ const getInitialFilterState = () => {
 
 const translateCategoryName = (name) => CATEGORY_LABELS[name] || name || 'Без категория';
 
-const getAttachmentUrl = (attachment) => `https://boisterous-sfogliatella-9ed996.netlify.app:8080${attachment.file_url}`;
+const getAttachmentUrl = (attachment) => `https://filiya-backend.onrender.com${attachment.file_url}`;
 
 const countImageAttachments = (attachments = []) => attachments.filter((attachment) => attachment.kind === 'image').length;
 const getImageAttachments = (attachments = []) => attachments.filter((attachment) => attachment.kind === 'image');

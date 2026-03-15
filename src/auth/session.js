@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://boisterous-sfogliatella-9ed996.netlify.app:8080/api';
+const API_BASE_URL = 'https://filiya-backend.onrender.com/api';
 
 const AUTH_SESSION_HINT_KEY = 'filia-auth-session';
 const AUTH_NOTICE_KEY = 'filia-auth-notice';
@@ -125,7 +125,7 @@ const postJson = async (path, body, token) => {
     return payload;
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на boisterous-sfogliatella-9ed996.netlify.app:8080.');
+      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на https://filiya-backend.onrender.com/.');
     }
 
     throw error;
@@ -236,7 +236,7 @@ const requestJson = async (path, options = {}) => {
     return payload;
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на boisterous-sfogliatella-9ed996.netlify.app:8080.');
+      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на https://filiya-backend.onrender.com/.');
     }
 
     throw error;
@@ -278,7 +278,7 @@ const requestFormData = async (path, formData, options = {}) => {
     return payload;
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на boisterous-sfogliatella-9ed996.netlify.app:8080.');
+      throw new Error('Няма връзка с бекенда. Провери дали API-то работи на https://filiya-backend.onrender.com/.');
     }
 
     throw error;
