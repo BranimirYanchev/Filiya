@@ -24,6 +24,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"time"
 
 	"github.com/Marionvd/filia-project-backend/config"
@@ -41,9 +43,8 @@ func main() {
 	log.SetLevel(log.DebugLevel)
 	gin.SetMode(gin.DebugMode)
 	log.Debug("Loading env...")
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
+	if err := godotenv.Load(); err != nil {
+		log.Warn("No .env file found, using environment variables")
 	}
 
 	config.GoogleConfig = config.SetUpGoogleConfig()
@@ -79,6 +80,14 @@ func main() {
 
 	router.SetUpRoutes(engine)
 
-	log.Debug("API running on http://localhost:8080/api")
-	engine.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	addr := fmt.Sprintf(":%s", port)
+	log.Infof("API running on %s/api", addr)
+	if err := engine.Run(addr); err != nil {
+		log.Fatal(err)
+	}
 }

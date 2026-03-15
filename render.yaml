@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: filiya-backend
+    runtime: go
+    plan: free
+    buildCommand: go build -tags netgo -ldflags '-s -w' -o app ./cmd
+    startCommand: ./app
+    healthCheckPath: /api
+    envVars:
+      - key: GO_VERSION
+        value: 1.24.4
