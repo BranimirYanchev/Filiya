@@ -1,3 +1,9 @@
+databases:
+  - name: filiya-db
+    plan: free
+    databaseName: filiya_db
+    user: filiya_user
+
 services:
   - type: web
     name: filiya-backend
@@ -7,5 +13,17 @@ services:
     startCommand: ./app
     healthCheckPath: /api
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: filiya-db
+          property: connectionString
       - key: GO_VERSION
         value: 1.24.4
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URL
+        sync: false
