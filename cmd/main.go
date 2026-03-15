@@ -26,7 +26,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/Marionvd/filia-project-backend/config"
 	"github.com/Marionvd/filia-project-backend/database"
@@ -54,23 +53,7 @@ func main() {
 	engine := gin.Default()
 
 	log.Debug("Setting up routers...")
-	engine.Use(cors.New(cors.Config{
-		AllowOrigins: []string{
-			"http://localhost:3000",
-			"http://127.0.0.1:3000",
-		},
-		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders: []string{"Origin", "Content-Type", "Content-Length", "Accept", "Authorization"},
-		ExposeHeaders: []string{
-			"Content-Length",
-			"X-Request-Id",
-			"X-RateLimit-Limit",
-			"X-RateLimit-Remaining",
-			"X-RateLimit-Reset",
-		},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	engine.Use(cors.New(config.CORSConfig()))
 
 	// Add middleware
 	engine.Use(middleware.RequestIDMiddleware())

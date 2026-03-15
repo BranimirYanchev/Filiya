@@ -78,6 +78,12 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
    DB_SSLMODE=disable
    
    JWT_SECRET=your_jwt_secret_key
+
+   # Frontend origin used for reset links and CORS in deployed environments
+   FRONTEND_URL=http://localhost:3000
+
+   # Optional comma-separated list of additional allowed frontend origins
+   CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
    
    # Google OAuth (optional)
    GOOGLE_CLIENT_ID=your_google_client_id
@@ -99,6 +105,8 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
 The server will start on port 8080. Once running, you can access:
 - **API Base URL**: `http://localhost:8080/api`
 - **Swagger UI**: `http://localhost:8080/api/swagger/index.html`
+
+For deployed environments, set `FRONTEND_URL` to your frontend app URL and, if needed, add more origins via `CORS_ALLOWED_ORIGINS`. Without that, the API only allows localhost frontend origins by default.
 
 ## API Documentation
 
