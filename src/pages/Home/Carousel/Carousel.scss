@@ -1,0 +1,107 @@
+@import '../../../styles/_variables.scss';
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  margin: auto;
+  overflow: hidden;
+  margin-top: 70px;
+
+  &__track {
+    display: flex;
+    position: relative;
+  }
+
+  &__slide {
+    position: absolute;
+    top: 0;
+    width: 60%;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.84);
+    transition: transform 0.52s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.52s ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .activeSlide {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    left: 20%;
+    z-index: 3;
+  }
+
+  .prevSlide {
+    opacity: 0.7;
+    transform: translate3d(-60%, 0, 0) scale(0.9);
+    z-index: 2;
+    position: absolute;
+    left: 36%
+  }
+
+  .nextSlide {
+    opacity: 0.7;
+    transform: translate3d(60%, 0, 0) scale(0.9);
+    z-index: 2;
+  }
+
+  &__arrow {
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 4;
+    color: $color-secondary;
+    transition: opacity 0.2s ease;
+
+    $arr-margin: 30px;
+
+    &.left {
+      margin-right: $arr-margin;
+    }
+
+    &.right {
+      margin-left: $arr-margin;
+
+      img {
+        transform: none;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 55px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      margin: 0 4px;
+      border-radius: 50%;
+      background: #bbb;
+      cursor: pointer;
+      border: 0;
+      transition: background 0.3s ease;
+      padding: 0;
+
+      &.active {
+        background: #6c4af2;
+      }
+    }
+  }
+}

@@ -1,0 +1,387 @@
+@import '../../styles/_variables.scss';
+
+.authPage {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(156, 108, 62, 0.12), transparent 28%),
+    linear-gradient(135deg, #f5f1ea 0%, #faf7f1 48%, #efe7db 100%);
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.stage {
+  width: min(1240px, 100%);
+  min-height: calc(100vh - 24px);
+  border-radius: 26px;
+  overflow: hidden;
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(25, 16, 11, 0.18), rgba(25, 16, 11, 0.38)),
+    url('../../images/home-section-image.png') center/cover no-repeat;
+  box-shadow: 0 28px 70px rgba(78, 51, 30, 0.14);
+}
+
+.stageSignup {
+  background-position: center;
+}
+
+.visualOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(14, 8, 4, 0.38), rgba(92, 58, 34, 0.06)),
+    radial-gradient(circle at 68% 36%, rgba(236, 205, 173, 0.12), transparent 28%);
+  pointer-events: none;
+}
+
+.brandButton {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 1;
+  border: 0;
+  background: rgba(255, 248, 240, 0.16);
+  color: #fff;
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  font-family: $font-family-base;
+}
+
+.visualCopyStack {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 1;
+  width: min(440px, calc(50% - 72px));
+  min-height: 160px;
+  transition: left 0.85s cubic-bezier(0.22, 1, 0.36, 1), right 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visualCopyStackSignup {
+  left: auto;
+  right: 24px;
+}
+
+.visualCopy {
+  position: absolute;
+  inset: auto 0 0 0;
+  max-width: 480px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.55s ease;
+  pointer-events: none;
+  color: #fff8ef;
+  text-shadow: 0 8px 24px rgba(13, 9, 6, 0.34);
+
+  p {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 13px;
+    color: rgba(255, 247, 236, 0.92);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: $font-family-base;
+    font-size: clamp(28px, 3.2vw, 46px);
+    line-height: 1.02;
+    font-weight: 600;
+  }
+}
+
+.visualCopyActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.visualCopyStackSignup .visualCopy {
+  text-align: right;
+}
+
+.formDock {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+  overflow: hidden;
+  transition:
+    left 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    right 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.formDockSignup {
+  left: 0;
+}
+
+.formTrack {
+  width: 200%;
+  height: 100%;
+  display: flex;
+  transform: translateX(0);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.formTrackSignup {
+  transform: translateX(-50%);
+}
+
+.formPanel {
+  width: 50%;
+  background: rgba(249, 247, 242, 0.98);
+  display: grid;
+  place-items: center;
+  padding: 22px 26px;
+}
+
+.formShell {
+  width: min(440px, 100%);
+  display: grid;
+  align-content: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #8b6f55;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.formShell h2 {
+  margin: 0;
+  font-size: clamp(32px, 3.8vw, 48px);
+  line-height: 0.98;
+  font-family: $font-family-base;
+  color: #24180f;
+}
+
+.formShell p {
+  margin: 8px 0 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #7d7064;
+  max-width: 360px;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.authError {
+  margin: 2px 0 0;
+  color: #a63434;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  border-radius: 18px;
+  background: #ece8f6;
+  padding: 0 18px;
+  color: #435463;
+  border: 1px solid rgba(91, 105, 124, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:focus-within {
+    transform: translateY(-1px);
+    border-color: rgba(92, 58, 34, 0.24);
+    box-shadow: 0 10px 24px rgba(73, 57, 43, 0.08);
+  }
+
+  input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #3a2d26;
+    font-size: 15px;
+    outline: none;
+    font-family: $font-family-secondary;
+  }
+
+  input::placeholder {
+    color: #625b66;
+  }
+}
+
+.primaryButton {
+  margin-top: 2px;
+  justify-self: start;
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #d8cab1 0%, #cdb894 100%);
+  color: #24180f;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 16px 28px rgba(108, 80, 42, 0.18);
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+}
+
+.switchLine {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #62584f;
+  font-size: 14px;
+
+  button {
+    border: 0;
+    background: transparent;
+    color: #5c3a22;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+  }
+}
+
+.separator {
+  margin: 14px 0 12px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  color: #5d5147;
+  font-size: 12px;
+  font-weight: 600;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    background: rgba(189, 182, 210, 0.48);
+  }
+}
+
+.googleButton {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 18px;
+  border: 1px solid rgba(212, 198, 173, 0.9);
+  background: rgba(255, 255, 255, 0.72);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 15px;
+  color: #2e241c;
+  cursor: pointer;
+}
+
+.googleMark {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+  background: conic-gradient(from 180deg, #34a853, #4285f4, #ea4335, #fbbc05, #34a853);
+}
+
+@media (max-width: 1100px) {
+  .authPage {
+    padding: 12px;
+  }
+
+  .stage {
+    min-height: auto;
+    border-radius: 24px;
+  }
+
+  .brandButton {
+    top: 18px;
+    left: 18px;
+  }
+
+  .visualCopy {
+    position: relative;
+    inset: auto;
+    max-width: 100%;
+    opacity: 1;
+    transform: none;
+  }
+
+  .visualCopyStack {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    padding: 110px 22px 22px;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .visualCopyStack .visualCopy:not(.visualCopyActive) {
+    display: none;
+  }
+
+  .formDock,
+  .formDockSignup {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    transform: none;
+    min-height: auto;
+  }
+
+  .formTrack,
+  .formTrackSignup {
+    width: 100%;
+    display: block;
+    transform: none;
+  }
+
+  .formPanel {
+    width: 100%;
+    padding: 30px 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .authPage {
+    padding: 0;
+  }
+
+  .stage {
+    border-radius: 0;
+  }
+
+  .field,
+  .googleButton {
+    min-height: 62px;
+    border-radius: 18px;
+  }
+
+  .primaryButton {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .formShell h2 {
+    font-size: 44px;
+  }
+}

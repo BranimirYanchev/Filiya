@@ -1,0 +1,100 @@
+@import '../../../styles/_variables.scss';
+
+$color-primary: $color-secondary;
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+
+}
+
+/* FAQ */
+.faq {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 66%;
+
+    .faq_item {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        .question {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .answer {
+            margin-top: 10px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        &:hover {
+            background: #f9f9f9;
+        }
+
+        &.open {
+            border-color: $color-primary;
+        }
+    }
+}
+
+.contact_box {
+    background: #fff;
+    border-radius: 15px;
+    padding: 50px 70px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+        color: $color-primary;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: $color-primary;
+    }
+
+    p {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 25px;
+        width: 200px;
+    }
+
+    .ask_btn {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform-origin: center;
+
+        background: $color-primary;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+    }
+}

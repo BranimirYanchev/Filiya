@@ -1,0 +1,173 @@
+@import '../../styles/_variables.scss';
+
+.circlesPage {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f4efe7 0%, #faf9f6 55%, #f2ece3 100%);
+}
+
+.main {
+  width: min(1240px, 94%);
+  margin: 0 auto;
+  padding: 130px 0 60px;
+  color: $color-secondary;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 36px;
+
+  h1 {
+    font-size: 58px;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 26px;
+  align-items: start;
+}
+
+.periodColumn,
+.qualificationColumn,
+.algorithmCard,
+.actions {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(92, 58, 34, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 16px 34px rgba(92, 58, 34, 0.08);
+  padding: 22px;
+}
+
+.periodColumn h2,
+.qualificationColumn h2,
+.algorithmCard h2 {
+  margin-bottom: 14px;
+  font-size: 2rem;
+}
+
+.optionList {
+  display: grid;
+  gap: 10px;
+}
+
+.optionItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 1.06rem;
+  cursor: pointer;
+}
+
+.generalRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.generalCard {
+  background: #fbf6ef;
+  border: 1px solid rgba(92, 58, 34, 0.18);
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 84px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.groupsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.groupCard {
+  background: #fffdf9;
+  border: 1px solid rgba(92, 58, 34, 0.16);
+  border-radius: 12px;
+  padding: 14px;
+
+  h3 {
+    font-size: 1.45rem;
+    margin-bottom: 10px;
+  }
+}
+
+.algorithmCard {
+  margin-top: 20px;
+
+  p {
+    font-size: 1.12rem;
+    line-height: 1.5;
+  }
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+
+  button {
+    border: 0;
+    border-radius: 999px;
+    background: $color-secondary;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+}
+
+.error {
+  color: #a21e1e;
+  font-size: 1rem;
+}
+
+.success {
+  color: #106335;
+  font-size: 1rem;
+}
+
+@media (max-width: 1080px) {
+  .matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .generalRow {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding-top: 110px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .groupsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .generalRow {
+    grid-template-columns: 1fr;
+  }
+}

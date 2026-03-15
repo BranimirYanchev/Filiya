@@ -1,0 +1,199 @@
+@import "../../styles/_variables.scss";
+
+$font-size-h1: 48px;
+
+.home {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    // font-family: 'Montserrat', sans-serif;
+    font-family: $font-family-base;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    color: $color-text;
+    width: 80%;
+
+    h1 {
+        font-size: clamp(2rem, 3.6vw, $font-size-h1);
+        margin-bottom: $space-md;
+    }
+
+    p {
+        font-size: $font-size-body;
+        line-height: 1.6;
+    }
+}
+
+section {
+    width: 100%;
+    height: auto;
+    background-color: $color-background;
+}
+
+.section_1 {
+    background: url("../../images/home-section-image.png") no-repeat center center;
+    background-size: cover;
+    z-index: 1;
+    height: 100vh;
+
+    div {
+        position: absolute;
+        top: 69%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: $color-primary;
+
+        h1 {
+            font-family: "Passion One";
+            font-size: clamp(4.4rem, 9.5vw, 7.6rem);
+        }
+
+        p {
+            font-size: clamp(1rem, 1.7vw, 1.2rem);
+            margin-bottom: 24px;
+            letter-spacing: 0.8rem;
+            font-family: $font-family-base;
+        }
+    }
+}
+
+.section_2 {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+
+    .content {
+        width: 95%;
+        margin-top: 40px;
+        height: 100%;
+        color: $color-secondary;
+
+        h1 {
+            font-size: $font-size-h1;
+        }
+    }
+}
+
+.section_3 {
+    z-index: 3;
+    height: auto; // премахваме 200vh, за да не се разтяга излишно
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        width: 90%;
+
+        color: $color-secondary;
+
+        h1 {
+            font-size: clamp(2.25rem, 4.2vw, 3.5rem);
+        }
+
+        .info_box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1550px;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 40vh; // фиксирана по-висока височина
+            min-height: 325px;
+
+            .info_image {
+                width: 40%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 45px;
+            }
+
+            .info_content {
+                width: 60%;
+                height: 100%; // да запълва цялата височина
+                padding-left: 40px;
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                padding-top: 10px;
+
+                h2 {
+                    margin-bottom: 20px;
+                    font-size: clamp(1.8rem, 3vw, 2.6rem);
+                    font-weight: bold;
+                }
+
+                p {
+                    font-family: "Montserrat", sans-serif;
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    line-height: 30px;
+                    letter-spacing: 1.1px;
+                }
+            }
+        }
+    }
+
+    .reverse {
+        flex-direction: row-reverse;
+
+        .info_content {
+            padding-right: 40px;
+            padding-left: 0 !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .info_box {
+            flex-direction: column;
+            height: auto;
+
+            .info_image,
+            .info_content {
+                width: 100%;
+                height: auto;
+            }
+
+            .info_content {
+                padding: 20px;
+            }
+        }
+    }
+}
+
+.section_4 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    height: auto;
+
+    .content {
+        width: 95%;
+        display: flex;
+        color: $color-secondary;
+        flex-direction: column;
+
+        h1 {
+            font-size: $font-size-h1;
+            font-family: $font-family-base;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        * {
+            font-family: "Montserrat", sans-serif;
+        }
+    }
+}
