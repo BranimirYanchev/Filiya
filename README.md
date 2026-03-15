@@ -84,7 +84,13 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
 
    # Optional comma-separated list of additional allowed frontend origins
    CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-   
+
+   # Auth cookie behavior
+   # Set COOKIE_SECURE=true in HTTPS environments. This defaults SameSite to None.
+   COOKIE_SECURE=false
+   # Optional explicit override: lax, strict, or none
+   COOKIE_SAME_SITE=lax
+
    # Google OAuth (optional)
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
@@ -125,6 +131,7 @@ Authorization: Bearer <your-jwt-token>
 ```
 
 The token is automatically set as a cookie upon successful login or registration.
+If your frontend and API run on different origins, set `COOKIE_SECURE=true` in production so the API emits `SameSite=None; Secure` cookies.
 
 ### Base URL
 

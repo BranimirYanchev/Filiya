@@ -17,8 +17,25 @@ func cookieSecure() bool {
 	return strings.EqualFold(os.Getenv("COOKIE_SECURE"), "true")
 }
 
+func cookieSameSite() http.SameSite {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("COOKIE_SAME_SITE"))) {
+	case "strict":
+		return http.SameSiteStrictMode
+	case "none":
+		return http.SameSiteNoneMode
+	case "lax":
+		return http.SameSiteLaxMode
+	}
+
+	if cookieSecure() {
+		return http.SameSiteNoneMode
+	}
+
+	return http.SameSiteLaxMode
+}
+
 func SetAuthCookies(c *gin.Context, accessToken, refreshToken string) {
-	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetSameSite(cookieSameSite())
 
 	if accessToken != "" {
 		c.SetCookie(AccessTokenCookieName, accessToken, int(AccessTokenTTL.Seconds()), "/", "", cookieSecure(), true)
@@ -30,7 +47,7 @@ func SetAuthCookies(c *gin.Context, accessToken, refreshToken string) {
 }
 
 func ClearAuthCookies(c *gin.Context) {
-	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetSameSite(cookieSameSite())
 	c.SetCookie(AccessTokenCookieName, "", -1, "/", "", cookieSecure(), true)
 	c.SetCookie(RefreshTokenCookieName, "", -1, "/", "", cookieSecure(), true)
 }

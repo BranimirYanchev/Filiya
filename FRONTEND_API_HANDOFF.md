@@ -12,8 +12,9 @@ Protected endpoints expect:
 
 Important:
 
-- `login` and `register` return `refresh_token`, but not the access token directly in JSON
-- use `POST /auth/refresh` after login/register to obtain `token`
+- `login` and `register` return both `token` and `refresh_token` in JSON
+- the backend also sets `token` and `refresh_token` as HttpOnly cookies
+- when using cookie auth across different origins, the frontend must send requests with credentials and the backend must run with `COOKIE_SECURE=true` over HTTPS
 - some endpoints return `data`, others return direct arrays or `message`
 
 ---
@@ -479,4 +480,3 @@ Auth required.
 - `GET /users/:id/posts` appears buggy in current backend code
 - response shape is inconsistent across endpoints
 - `GET /categories` returns `201 Created` instead of `200 OK`
-
