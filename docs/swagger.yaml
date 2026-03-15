@@ -1,0 +1,1884 @@
+basePath: /api
+definitions:
+  model.Category:
+    properties:
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      parent:
+        $ref: '#/definitions/model.Category'
+      parent_id:
+        type: integer
+      posts:
+        items:
+          $ref: '#/definitions/model.Post'
+        type: array
+      sub_categories:
+        items:
+          $ref: '#/definitions/model.Category'
+        type: array
+    type: object
+  model.Comment:
+    properties:
+      author:
+        $ref: '#/definitions/model.User'
+      author_id:
+        type: integer
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      likes:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      post_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  model.CreateCategoryInput:
+    properties:
+      name:
+        type: string
+      parent_id:
+        type: integer
+    type: object
+  model.CreatePost:
+    properties:
+      category_ids:
+        example:
+        - 1
+        items:
+          type: integer
+        type: array
+      content:
+        example: This is the content of my first post.
+        type: string
+      is_private:
+        example: false
+        type: boolean
+      tagged_users:
+        example:
+        - 2
+        - 3
+        items:
+          type: integer
+        type: array
+      tags:
+        example:
+        - tag1
+        - tag2
+        items:
+          type: string
+        type: array
+      title:
+        example: My First Post
+        type: string
+    type: object
+  model.FriendRequest:
+    properties:
+      accepted:
+        type: boolean
+      id:
+        type: integer
+      pending:
+        type: boolean
+      recipient:
+        $ref: '#/definitions/model.User'
+      recipientID:
+        format: int64
+        type: integer
+      sender:
+        $ref: '#/definitions/model.User'
+      senderID:
+        format: int64
+        type: integer
+    type: object
+  model.OptionalString:
+    properties:
+      valid:
+        type: boolean
+      value:
+        type: string
+    type: object
+  model.PasswordLoginInput:
+    description: DTO for user login.
+    properties:
+      email:
+        example: standard_user@mail.com
+        type: string
+      password:
+        example: m123#@S
+        type: string
+    type: object
+  model.PasswordRegisterInput:
+    description: DTO for user registration with password confirmation.
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      full_name:
+        example: John Doe
+        type: string
+      password:
+        example: securePassword123
+        type: string
+      repeated_password:
+        example: securePassword123
+        type: string
+    type: object
+  model.Permission:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/model.Role'
+        type: array
+    type: object
+  model.Post:
+    properties:
+      author:
+        $ref: '#/definitions/model.User'
+      author_id:
+        example: 1
+        type: integer
+      categories:
+        items:
+          $ref: '#/definitions/model.Category'
+        type: array
+      category_ids:
+        items:
+          type: integer
+        type: array
+      comments:
+        items:
+          $ref: '#/definitions/model.Comment'
+        type: array
+      content:
+        example: This is the content of my first post.
+        type: string
+      created_at:
+        example: "2023-08-17T10:00:00Z"
+        type: string
+      deleted_at:
+        type: string
+      id:
+        example: 1
+        type: integer
+      is_private:
+        type: boolean
+      likes:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      post_history:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      tagged_users:
+        example:
+        - 2
+        - 3
+        items:
+          type: integer
+        type: array
+      tags:
+        example:
+        - tag1
+        - tag2
+        items:
+          type: string
+        type: array
+      title:
+        example: My First Post
+        type: string
+      updated_at:
+        example: "2023-08-17T10:00:00Z"
+        type: string
+    type: object
+  model.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      permissions:
+        items:
+          $ref: '#/definitions/model.Permission'
+        type: array
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
+  model.UpdateCategoryInput:
+    properties:
+      name:
+        type: string
+      parent_id:
+        type: integer
+    type: object
+  model.UpdatePost:
+    properties:
+      category_ids:
+        example:
+        - 2
+        - 3
+        items:
+          type: integer
+        type: array
+      content:
+        example: This is the content of my first post updated.
+        type: string
+      is_private:
+        example: false
+        type: boolean
+      tagged_users:
+        example:
+        - 2
+        - 3
+        items:
+          type: integer
+        type: array
+      tags:
+        example:
+        - tag1
+        - tag2
+        items:
+          type: string
+        type: array
+      title:
+        example: My First Post Updated
+        type: string
+    type: object
+  model.User:
+    description: Full user model stored in the database. Includes personal info, role,
+      social connections, and metadata.
+    properties:
+      bio:
+        example: Loves hiking and coding.
+        type: string
+      created_at:
+        example: "2023-08-17T10:00:00Z"
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      friends:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      full_name:
+        example: John Doe
+        type: string
+      google_id:
+        example: google-oauth-id
+        type: string
+      id:
+        example: 1
+        type: integer
+      liked_posts:
+        items:
+          $ref: '#/definitions/model.Post'
+        type: array
+      likes:
+        items:
+          $ref: '#/definitions/model.Comment'
+        type: array
+      password:
+        example: passDAdsa@
+        type: string
+      post_history:
+        items:
+          $ref: '#/definitions/model.Post'
+        type: array
+      profile_picture:
+        example: https://example.com/avatar.jpg
+        type: string
+      role:
+        $ref: '#/definitions/model.Role'
+      role_id:
+        example: 2
+        type: integer
+      updated_at:
+        example: "2023-08-17T10:00:00Z"
+        type: string
+    type: object
+  model.UserUpdateInsensitiveInput:
+    description: DTO for updating user bio or other public info.
+    properties:
+      bio:
+        $ref: '#/definitions/model.OptionalString'
+    type: object
+  model.UserUpdateSensitiveBody:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      old_password:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@filia.example.com
+    name: API Support
+    url: https://github.com/Marionvd/filia-project-backend
+  description: A comprehensive social application backend API built with Go and Gin
+    framework. Provides endpoints for user management, authentication, posts, comments,
+    categories, roles, and friend management.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Filia Project Backend API
+  version: "1.0"
+paths:
+  /api/:
+    get:
+      consumes:
+      - application/json
+      description: Returns a welcome message for the API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Welcome message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get API home
+      tags:
+      - api
+  /api/auth/:
+    get:
+      consumes:
+      - application/json
+      description: Returns a welcome message for the authentication endpoint
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Welcome message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get authentication home
+      tags:
+      - auth
+  /api/auth/google/callback:
+    get:
+      consumes:
+      - application/json
+      description: Processes the OAuth callback, creates or authenticates user, and
+        returns JWT token
+      parameters:
+      - description: OAuth authorization code from Google
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User information and token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid or missing code
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Handle Google OAuth callback
+      tags:
+      - auth
+  /api/auth/google/login:
+    get:
+      consumes:
+      - application/json
+      description: Redirects user to Google OAuth consent screen
+      produces:
+      - application/json
+      responses:
+        "307":
+          description: Redirect to Google OAuth
+      security:
+      - BearerAuth: []
+      summary: Initiate Google OAuth login
+      tags:
+      - auth
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Validates credentials and returns a JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/model.PasswordLoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Validation flags
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or login failure
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login with email and password
+      tags:
+      - auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Validates input, hashes password, assigns default role, and creates
+        user in the database
+      parameters:
+      - description: User registration input
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.PasswordRegisterInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Validation flags
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or hashing error
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Database error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user with email and password
+      tags:
+      - auth
+  /api/categories:
+    get:
+      consumes:
+      - application/json
+      description: Returns a paginated list of all categories in the system
+      parameters:
+      - default: 10
+        description: 'Number of categories to return (default: 10, max: 200)'
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: 'Number of categories to skip (default: 0)'
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of categories
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all categories
+      tags:
+      - categories
+    post:
+      consumes:
+      - application/json
+      description: Creates a new category with optional parent category (requires
+        moderator:create permission)
+      parameters:
+      - description: Category creation data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created category
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new category
+      tags:
+      - categories
+  /api/categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Permanently deletes a category and its related usages (requires
+        moderator:delete permission)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deletion confirmation
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid category ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a category
+      tags:
+      - categories
+    get:
+      consumes:
+      - application/json
+      description: Returns detailed information about a specific category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category details
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid category ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Category not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get category by ID
+      tags:
+      - categories
+    put:
+      consumes:
+      - application/json
+      description: Updates category name and/or parent (requires moderator:update
+        permission)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated category data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated category
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or category ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a category
+      tags:
+      - categories
+  /api/categories/{id}/posts:
+    get:
+      consumes:
+      - application/json
+      description: Returns a paginated list of posts belonging to a specific category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: 10
+        description: 'Number of posts to return (default: 10, max: 200)'
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: 'Number of posts to skip (default: 0)'
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category and its posts
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid category ID or query parameters
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get posts by category
+      tags:
+      - categories
+  /api/categories/name:
+    get:
+      consumes:
+      - application/json
+      description: Searches for a category by its name (authenticated endpoint)
+      parameters:
+      - description: Category name
+        in: body
+        name: input
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category details
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Category not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Find category by name
+      tags:
+      - categories
+  /api/comments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Permanently deletes a comment (requires user:update permission)
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deletion confirmation
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid comment ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a comment
+      tags:
+      - comments
+    get:
+      consumes:
+      - application/json
+      description: Returns detailed information about a specific comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment details
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid comment ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Comment not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get comment by ID
+      tags:
+      - comments
+    put:
+      consumes:
+      - application/json
+      description: Updates the content of an existing comment (requires user:update
+        permission)
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated comment content
+        in: body
+        name: input
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated comment
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or comment ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a comment
+      tags:
+      - comments
+  /api/comments/{id}/like:
+    post:
+      consumes:
+      - application/json
+      description: Toggles the like status for a comment. If already liked, removes
+        the like (requires user:update permission)
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Like count
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid comment ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Like/unlike a comment
+      tags:
+      - comments
+  /api/posts:
+    get:
+      consumes:
+      - application/json
+      description: Returns a paginated list of posts with optional filtering for authenticated
+        users
+      parameters:
+      - default: 20
+        description: 'Number of posts to return (default: 20, max: 200)'
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: 'Number of posts to skip (default: 0)'
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of posts
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all posts
+      tags:
+      - posts
+    post:
+      consumes:
+      - application/json
+      description: Creates a new post with title, content, categories, tags, and tagged
+        users
+      parameters:
+      - description: Post creation data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreatePost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created post
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new post
+      tags:
+      - posts
+  /api/posts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Permanently deletes a post from the system
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deletion confirmation
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a post
+      tags:
+      - posts
+    get:
+      consumes:
+      - application/json
+      description: Returns detailed information about a specific post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Post details
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get post by ID
+      tags:
+      - posts
+    put:
+      consumes:
+      - application/json
+      description: Updates the content, title, categories, tags, or privacy settings
+        of a post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated post data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdatePost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated post
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a post
+      tags:
+      - posts
+  /api/posts/{id}/comments:
+    get:
+      consumes:
+      - application/json
+      description: Returns all comments associated with a specific post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of comments
+          schema:
+            items:
+              $ref: '#/definitions/model.Comment'
+            type: array
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get post comments
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: Creates a new comment on a specific post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment content
+        in: body
+        name: input
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created comment
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input or post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a comment
+      tags:
+      - comments
+  /api/posts/{id}/like:
+    post:
+      consumes:
+      - application/json
+      description: Toggles the like status for a post. If already liked, removes the
+        like.
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Like count
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Like/unlike a post
+      tags:
+      - posts
+  /api/roles:
+    get:
+      consumes:
+      - application/json
+      description: Returns a paginated list of all roles in the system (requires moderator:read
+        permission)
+      parameters:
+      - default: 20
+        description: 'Number of roles to return (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: 'Number of roles to skip (default: 0)'
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of roles
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get all roles
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Creates a new role with specified permissions (requires moderator:update
+        permission)
+      parameters:
+      - description: Role creation data
+        in: body
+        name: input
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created role
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new role
+      tags:
+      - roles
+  /api/roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Permanently deletes a role from the system (requires admin:access
+        permission)
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deletion confirmation
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid role ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a role
+      tags:
+      - roles
+  /api/roles/me:
+    get:
+      consumes:
+      - application/json
+      description: Returns the role information for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User role information
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get current user role
+      tags:
+      - roles
+  /api/users/:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of all users in the system (public endpoint)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of users
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: Get all users
+      tags:
+      - users
+  /api/users/{id}/posts:
+    get:
+      consumes:
+      - application/json
+      description: Returns all posts created by the specified user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of user posts
+          schema:
+            items:
+              $ref: '#/definitions/model.Post'
+            type: array
+        "400":
+          description: Invalid user ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user posts
+      tags:
+      - users
+  /api/users/friends/requests:
+    post:
+      consumes:
+      - application/json
+      description: Sends a friend request to a user by their email address (requires
+        user:update permission)
+      parameters:
+      - description: Friend request data
+        in: body
+        name: input
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Request sent confirmation
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+        "400":
+          description: Invalid input or cannot send to yourself
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Send friend request
+      tags:
+      - friends
+  /api/users/friends/requests/accept/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Accepts a pending friend request (requires user:update permission)
+      parameters:
+      - description: Friend Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted friend request
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Accept friend request
+      tags:
+      - friends
+  /api/users/friends/requests/cancel/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a friend request (requires user:update permission)
+      parameters:
+      - description: Friend Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Deletion confirmation
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete friend request
+      tags:
+      - friends
+    post:
+      consumes:
+      - application/json
+      description: Declines a pending friend request (requires user:update permission)
+      parameters:
+      - description: Friend Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Declined friend request
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Decline friend request
+      tags:
+      - friends
+  /api/users/friends/requests/pending:
+    get:
+      consumes:
+      - application/json
+      description: Returns all pending friend requests received by the authenticated
+        user (requires user:update permission)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of pending friend requests
+          schema:
+            items:
+              $ref: '#/definitions/model.FriendRequest'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get pending friend requests
+      tags:
+      - friends
+  /api/users/friends/requests/sent:
+    get:
+      consumes:
+      - application/json
+      description: Returns all friend requests sent by the authenticated user (requires
+        user:update permission)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of sent friend requests
+          schema:
+            items:
+              $ref: '#/definitions/model.FriendRequest'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden - insufficient permissions
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get sent friend requests
+      tags:
+      - friends
+  /api/users/me:
+    get:
+      consumes:
+      - application/json
+      description: Returns the user information for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Current user information
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - users
+  /api/users/profile/avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a new profile picture for the authenticated user
+      parameters:
+      - description: Profile picture image file
+        in: formData
+        name: profile_picture
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Upload confirmation
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+        "400":
+          description: Invalid file
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update user avatar
+      tags:
+      - users
+  /api/users/profile/basic:
+    put:
+      consumes:
+      - application/json
+      description: Updates the user's bio information
+      parameters:
+      - description: Updated bio information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserUpdateInsensitiveInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated user information
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update user bio
+      tags:
+      - users
+  /api/users/profile/sensitive:
+    put:
+      consumes:
+      - application/json
+      description: Updates email, password, or full name. Requires old password confirmation.
+      parameters:
+      - description: Updated user information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserUpdateSensitiveBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update confirmation
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input or password mismatch
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update sensitive user information
+      tags:
+      - users
+  /api/users/public/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns public information about a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User information
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid user ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user by ID
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

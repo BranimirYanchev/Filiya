@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16
+    container_name: filia-db
+    environment:
+      POSTGRES_DB: filia
+      POSTGRES_USER: filia
+      POSTGRES_PASSWORD: filia
+    ports:
+      - "5432:5432"
+    volumes:
+      - filia_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U filia -d filia"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: filia-app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  filia_postgres_data:
