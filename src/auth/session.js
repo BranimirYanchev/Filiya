@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://filiya-backend.onrender.com';
+const API_BASE_URL = 'https://filiya-backend.onrender.com/api';
 
 const AUTH_SESSION_HINT_KEY = 'filia-auth-session';
 const AUTH_NOTICE_KEY = 'filia-auth-notice';
