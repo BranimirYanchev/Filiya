@@ -27,6 +27,24 @@ func TestCookieSameSiteDefaultsToNoneForSecureCookies(t *testing.T) {
 	}
 }
 
+func TestCookieSecureDefaultsToTrueForHttpsFrontend(t *testing.T) {
+	t.Setenv("COOKIE_SECURE", "")
+	t.Setenv("FRONTEND_URL", "https://filiya-frontend.onrender.com")
+
+	if !cookieSecure() {
+		t.Fatal("expected cookieSecure() to default to true for HTTPS frontend URL")
+	}
+}
+
+func TestCookieSecureStaysFalseForLocalFrontend(t *testing.T) {
+	t.Setenv("COOKIE_SECURE", "")
+	t.Setenv("FRONTEND_URL", "http://localhost:3000")
+
+	if cookieSecure() {
+		t.Fatal("expected cookieSecure() to stay false for local frontend URL")
+	}
+}
+
 func TestSetAuthCookiesUsesSameSiteNoneForSecureCookies(t *testing.T) {
 	t.Setenv("COOKIE_SECURE", "true")
 	t.Setenv("COOKIE_SAME_SITE", "")

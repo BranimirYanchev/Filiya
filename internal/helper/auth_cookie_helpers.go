@@ -14,7 +14,18 @@ const (
 )
 
 func cookieSecure() bool {
-	return strings.EqualFold(os.Getenv("COOKIE_SECURE"), "true")
+	if value := strings.TrimSpace(os.Getenv("COOKIE_SECURE")); value != "" {
+		return strings.EqualFold(value, "true")
+	}
+
+	frontendURL := strings.ToLower(strings.TrimSpace(os.Getenv("FRONTEND_URL")))
+	if strings.HasPrefix(frontendURL, "https://") &&
+		!strings.Contains(frontendURL, "localhost") &&
+		!strings.Contains(frontendURL, "127.0.0.1") {
+		return true
+	}
+
+	return false
 }
 
 func cookieSameSite() http.SameSite {
