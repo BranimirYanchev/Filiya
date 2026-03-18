@@ -7,6 +7,16 @@ const SESSION_EXPIRED_EVENT = 'filia:session-expired';
 
 let refreshInFlight = null;
 
+const createRequestOptions = ({ token, headers = {}, ...options } = {}) => ({
+  ...options,
+  mode: 'cors',
+  credentials: 'include',
+  headers: {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...headers
+  }
+});
+
 const hasAuthPayload = (payload) => (
   !payload
   || typeof payload !== 'object'
@@ -106,15 +116,14 @@ const shouldRetryWithRefresh = (response, payload) => (
 
 const postJson = async (path, body, token) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${API_BASE_URL}${path}`, createRequestOptions({
       method: 'POST',
-      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {})
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)
-    });
+      body: JSON.stringify(body),
+      token
+    }));
 
     const payload = await parseJsonSafe(response);
 
@@ -204,15 +213,14 @@ export const ensureValidSession = async ({ force = false } = {}) => {
 
 const requestJson = async (path, options = {}) => {
   const makeRequest = async (token) => {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${API_BASE_URL}${path}`, createRequestOptions({
       ...options,
-      credentials: 'include',
       headers: {
         ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(options.headers || {})
-      }
-    });
+      },
+      token
+    }));
 
     const payload = await parseJsonSafe(response);
     return { response, payload };
@@ -245,16 +253,15 @@ const requestJson = async (path, options = {}) => {
 
 const requestFormData = async (path, formData, options = {}) => {
   const makeRequest = async (token) => {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${API_BASE_URL}${path}`, createRequestOptions({
       method: options.method || 'POST',
       ...options,
-      credentials: 'include',
       headers: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(options.headers || {})
       },
-      body: formData
-    });
+      body: formData,
+      token
+    }));
 
     const payload = await parseJsonSafe(response);
     return { response, payload };
