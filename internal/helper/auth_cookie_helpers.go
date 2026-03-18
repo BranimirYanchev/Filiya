@@ -13,6 +13,10 @@ const (
 	RefreshTokenCookieName = "refresh_token"
 )
 
+func authCookiesEnabled() bool {
+	return strings.EqualFold(strings.TrimSpace(os.Getenv("AUTH_COOKIES_ENABLED")), "true")
+}
+
 func cookieSecure() bool {
 	if value := strings.TrimSpace(os.Getenv("COOKIE_SECURE")); value != "" {
 		return strings.EqualFold(value, "true")
@@ -46,6 +50,10 @@ func cookieSameSite() http.SameSite {
 }
 
 func SetAuthCookies(c *gin.Context, accessToken, refreshToken string) {
+	if !authCookiesEnabled() {
+		return
+	}
+
 	c.SetSameSite(cookieSameSite())
 
 	if accessToken != "" {
@@ -58,6 +66,10 @@ func SetAuthCookies(c *gin.Context, accessToken, refreshToken string) {
 }
 
 func ClearAuthCookies(c *gin.Context) {
+	if !authCookiesEnabled() {
+		return
+	}
+
 	c.SetSameSite(cookieSameSite())
 	c.SetCookie(AccessTokenCookieName, "", -1, "/", "", cookieSecure(), true)
 	c.SetCookie(RefreshTokenCookieName, "", -1, "/", "", cookieSecure(), true)
@@ -69,6 +81,10 @@ func ExtractAccessToken(c *gin.Context) string {
 		return strings.TrimSpace(headerValue[7:])
 	}
 
+	if !authCookiesEnabled() {
+		return ""
+	}
+
 	cookieValue, err := c.Cookie(AccessTokenCookieName)
 	if err == nil {
 		return strings.TrimSpace(cookieValue)
@@ -78,9 +94,11 @@ func ExtractAccessToken(c *gin.Context) string {
 }
 
 func ExtractRefreshToken(c *gin.Context) string {
-	cookieValue, err := c.Cookie(RefreshTokenCookieName)
-	if err == nil && strings.TrimSpace(cookieValue) != "" {
-		return strings.TrimSpace(cookieValue)
+	if authCookiesEnabled() {
+		cookieValue, err := c.Cookie(RefreshTokenCookieName)
+		if err == nil && strings.TrimSpace(cookieValue) != "" {
+			return strings.TrimSpace(cookieValue)
+		}
 	}
 
 	var body struct {

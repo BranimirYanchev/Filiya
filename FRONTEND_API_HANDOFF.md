@@ -13,8 +13,9 @@ Protected endpoints expect:
 Important:
 
 - `login` and `register` return both `token` and `refresh_token` in JSON
-- the backend also sets `token` and `refresh_token` as HttpOnly cookies
-- when using cookie auth across different origins, the frontend must send requests with credentials and the backend must run with `COOKIE_SECURE=true` over HTTPS
+- auth is expected via `Authorization: Bearer <token>`
+- `refresh_token` should be sent in the JSON body to `/auth/refresh`
+- the backend does not set auth cookies unless `AUTH_COOKIES_ENABLED=true`
 - some endpoints return `data`, others return direct arrays or `message`
 
 ---

@@ -85,8 +85,9 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
    # Optional comma-separated list of additional allowed frontend origins
    CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 
-   # Auth cookie behavior
-   # Set COOKIE_SECURE=true in HTTPS environments. This defaults SameSite to None.
+   # Optional auth cookie behavior. Disabled by default.
+   AUTH_COOKIES_ENABLED=false
+   # If cookies are enabled, set COOKIE_SECURE=true in HTTPS environments.
    COOKIE_SECURE=false
    # Optional explicit override: lax, strict, or none
    COOKIE_SAME_SITE=lax
@@ -130,8 +131,8 @@ All authenticated endpoints require a JWT token in the `Authorization` header:
 Authorization: Bearer <your-jwt-token>
 ```
 
-The token is automatically set as a cookie upon successful login or registration.
-If your frontend and API run on different origins, set `COOKIE_SECURE=true` in production so the API emits `SameSite=None; Secure` cookies.
+Use the `token` from the response in the `Authorization` header.
+The API no longer sets auth cookies unless `AUTH_COOKIES_ENABLED=true` is configured explicitly.
 
 ### Base URL
 
@@ -149,7 +150,7 @@ http://localhost:8080/api
 | GET | `/auth/` | Authentication home endpoint | Optional | 5/min |
 | POST | `/auth/register` | Register a new user with email and password | No | 5/min |
 | POST | `/auth/login` | Login with email and password | No | 5/min |
-| POST | `/auth/logout` | Logout user (clears cookies) | Yes | - |
+| POST | `/auth/logout` | Logout user | Yes | - |
 | POST | `/auth/refresh` | Refresh access token using refresh token | No | 5/min |
 | POST | `/auth/reset-password-request` | Request password reset (sends reset token) | No | 5/min |
 | POST | `/auth/reset-password` | Reset password using reset token | No | 5/min |

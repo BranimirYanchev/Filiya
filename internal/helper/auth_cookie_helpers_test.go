@@ -46,6 +46,7 @@ func TestCookieSecureStaysFalseForLocalFrontend(t *testing.T) {
 }
 
 func TestSetAuthCookiesUsesSameSiteNoneForSecureCookies(t *testing.T) {
+	t.Setenv("AUTH_COOKIES_ENABLED", "true")
 	t.Setenv("COOKIE_SECURE", "true")
 	t.Setenv("COOKIE_SAME_SITE", "")
 
@@ -78,11 +79,55 @@ func TestSetAuthCookiesUsesSameSiteNoneForSecureCookies(t *testing.T) {
 	}
 }
 
+func TestSetAuthCookiesDisabledByDefault(t *testing.T) {
+	t.Setenv("AUTH_COOKIES_ENABLED", "")
+
+	gin.SetMode(gin.TestMode)
+	recorder := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(recorder)
+
+	SetAuthCookies(c, "access-token", "refresh-token")
+
+	if cookies := recorder.Result().Cookies(); len(cookies) != 0 {
+		t.Fatalf("expected no cookies when auth cookies are disabled, got %d", len(cookies))
+	}
+}
+
 func TestCookieSameSiteHonorsExplicitOverride(t *testing.T) {
+	t.Setenv("AUTH_COOKIES_ENABLED", "true")
 	t.Setenv("COOKIE_SECURE", "true")
 	t.Setenv("COOKIE_SAME_SITE", "strict")
 
 	if got := cookieSameSite(); got != http.SameSiteStrictMode {
 		t.Fatalf("cookieSameSite() = %v, want %v", got, http.SameSiteStrictMode)
+	}
+}
+
+func TestExtractAccessTokenIgnoresCookieWhenDisabled(t *testing.T) {
+	t.Setenv("AUTH_COOKIES_ENABLED", "")
+
+	gin.SetMode(gin.TestMode)
+	recorder := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(recorder)
+	c.Request = httptest.NewRequest(http.MethodGet, "/", nil)
+	c.Request.AddCookie(&http.Cookie{Name: AccessTokenCookieName, Value: "cookie-token"})
+
+	if got := ExtractAccessToken(c); got != "" {
+		t.Fatalf("expected no access token from cookie when disabled, got %q", got)
+	}
+}
+
+func TestExtractRefreshTokenReadsBodyWhenCookiesDisabled(t *testing.T) {
+	t.Setenv("AUTH_COOKIES_ENABLED", "")
+
+	gin.SetMode(gin.TestMode)
+	recorder := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(recorder)
+	c.Request = httptest.NewRequest(http.MethodPost, "/", strings.NewReader(`{"refresh_token":"body-token"}`))
+	c.Request.Header.Set("Content-Type", "application/json")
+	c.Request.AddCookie(&http.Cookie{Name: RefreshTokenCookieName, Value: "cookie-token"})
+
+	if got := ExtractRefreshToken(c); got != "body-token" {
+		t.Fatalf("expected refresh token from body when cookies are disabled, got %q", got)
 	}
 }
