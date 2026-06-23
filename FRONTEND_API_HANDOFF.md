@@ -2,7 +2,9 @@
 
 ## Base URL
 
-`http://localhost:8080/api`
+Local: `http://localhost:8080/api`
+
+Production: `https://<your-backend-service>.onrender.com/api`
 
 ## Authentication
 
@@ -12,11 +14,37 @@ Protected endpoints expect:
 
 Important:
 
-- `login` and `register` return both `token` and `refresh_token` in JSON
-- auth is expected via `Authorization: Bearer <token>`
-- `refresh_token` should be sent in the JSON body to `/auth/refresh`
-- the backend does not set auth cookies unless `AUTH_COOKIES_ENABLED=true`
+- `login`, `register`, and `refresh` return both `token` and `refresh_token`
+- the same endpoints also set `HttpOnly` auth cookies on the backend domain
+- protected endpoints work with either `Authorization` header or backend auth cookies
+- if the frontend is on a separate origin/domain, requests must use `credentials: 'include'`
+- for cross-site cookies in production, backend env should use `COOKIE_SECURE=true` and `COOKIE_SAME_SITE=none`
 - some endpoints return `data`, others return direct arrays or `message`
+
+### Cross-Origin Frontend Setup
+
+Frontend fetch example:
+
+```ts
+await fetch(`${API_URL}/auth/refresh`, {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+```
+
+Backend Render env example:
+
+```env
+FRONTEND_URL=https://<your-frontend-service>.onrender.com
+CORS_ALLOWED_ORIGINS=https://<your-frontend-service>.onrender.com
+COOKIE_SECURE=true
+COOKIE_SAME_SITE=none
+GOOGLE_REDIRECT_URL=https://<your-backend-service>.onrender.com/api/auth/google/callback
+FRONTEND_AUTH_SUCCESS_URL=https://<your-frontend-service>.onrender.com/auth/callback
+```
 
 ---
 
@@ -96,7 +124,10 @@ Starts Google OAuth flow.
 
 ### `GET /auth/google/callback?code=...`
 
-Returns Google-authenticated user data plus `refresh_token`.
+Sets auth cookies and then:
+
+- redirects to `FRONTEND_AUTH_SUCCESS_URL` when configured
+- otherwise returns Google-authenticated user data plus tokens in JSON
 
 ---
 
@@ -475,9 +506,7 @@ Auth required.
 
 ## Known Backend Issues
 
-- `login/register` do not return access token directly in JSON
-- protected endpoints rely on `Authorization` header
+- response shape is inconsistent across endpoints
 - `GET /categories/name` is implemented as GET with body
 - `GET /users/:id/posts` appears buggy in current backend code
-- response shape is inconsistent across endpoints
 - `GET /categories` returns `201 Created` instead of `200 OK`

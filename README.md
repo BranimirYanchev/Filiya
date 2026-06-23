@@ -78,24 +78,19 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
    DB_SSLMODE=disable
    
    JWT_SECRET=your_jwt_secret_key
-
-   # Frontend origin used for reset links and CORS in deployed environments
+   
+   # Frontend / CORS / cookies
    FRONTEND_URL=http://localhost:3000
-
-   # Optional comma-separated list of additional allowed frontend origins
    CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-
-   # Optional auth cookie behavior. Disabled by default.
-   AUTH_COOKIES_ENABLED=false
-   # If cookies are enabled, set COOKIE_SECURE=true in HTTPS environments.
    COOKIE_SECURE=false
-   # Optional explicit override: lax, strict, or none
    COOKIE_SAME_SITE=lax
+   COOKIE_DOMAIN=
 
    # Google OAuth (optional)
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
    GOOGLE_REDIRECT_URL=http://localhost:8080/api/auth/google/callback
+   FRONTEND_AUTH_SUCCESS_URL=http://localhost:3000/auth/callback
    ```
 
 4. Run the application:
@@ -109,11 +104,9 @@ Filia Project Backend is a RESTful API service that powers the Filia social appl
    ./main
    ```
 
-The server will start on port 8080. Once running, you can access:
+The server will start on port `8080` by default, or `PORT` when provided by the hosting platform. Once running, you can access:
 - **API Base URL**: `http://localhost:8080/api`
 - **Swagger UI**: `http://localhost:8080/api/swagger/index.html`
-
-For deployed environments, set `FRONTEND_URL` to your frontend app URL and, if needed, add more origins via `CORS_ALLOWED_ORIGINS`. Without that, the API only allows localhost frontend origins by default.
 
 ## API Documentation
 
@@ -126,13 +119,28 @@ After starting the server, visit the Swagger UI to explore all endpoints, try th
 
 ### Authentication
 
-All authenticated endpoints require a JWT token in the `Authorization` header:
+All authenticated endpoints support a JWT token in the `Authorization` header:
 ```
 Authorization: Bearer <your-jwt-token>
 ```
 
-Use the `token` from the response in the `Authorization` header.
-The API no longer sets auth cookies unless `AUTH_COOKIES_ENABLED=true` is configured explicitly.
+The backend also sets `HttpOnly` auth cookies upon successful login, registration, refresh, and Google OAuth callback.
+
+If your frontend is hosted on a different origin:
+- set `credentials: 'include'` on frontend requests that rely on cookies
+- configure `CORS_ALLOWED_ORIGINS` to the exact frontend URL
+- in production, use `COOKIE_SECURE=true`
+- for truly cross-site cookies, use `COOKIE_SAME_SITE=none`
+
+Example Render-style production values:
+```env
+FRONTEND_URL=https://your-frontend.onrender.com
+CORS_ALLOWED_ORIGINS=https://your-frontend.onrender.com
+COOKIE_SECURE=true
+COOKIE_SAME_SITE=none
+GOOGLE_REDIRECT_URL=https://your-backend.onrender.com/api/auth/google/callback
+FRONTEND_AUTH_SUCCESS_URL=https://your-frontend.onrender.com/auth/callback
+```
 
 ### Base URL
 
@@ -150,7 +158,7 @@ http://localhost:8080/api
 | GET | `/auth/` | Authentication home endpoint | Optional | 5/min |
 | POST | `/auth/register` | Register a new user with email and password | No | 5/min |
 | POST | `/auth/login` | Login with email and password | No | 5/min |
-| POST | `/auth/logout` | Logout user | Yes | - |
+| POST | `/auth/logout` | Logout user (clears cookies) | Yes | - |
 | POST | `/auth/refresh` | Refresh access token using refresh token | No | 5/min |
 | POST | `/auth/reset-password-request` | Request password reset (sends reset token) | No | 5/min |
 | POST | `/auth/reset-password` | Reset password using reset token | No | 5/min |

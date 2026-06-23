@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -24,6 +25,28 @@ import (
 	"golang.org/x/oauth2"
 	googleapi "google.golang.org/api/oauth2/v2"
 )
+
+func redirectToFrontend(c *gin.Context, baseURL string, params map[string]string) bool {
+	baseURL = strings.TrimSpace(baseURL)
+	if baseURL == "" {
+		return false
+	}
+
+	redirectURL, err := url.Parse(baseURL)
+	if err != nil {
+		log.WithError(err).Warn("failed to parse frontend redirect url")
+		return false
+	}
+
+	query := redirectURL.Query()
+	for key, value := range params {
+		query.Set(key, value)
+	}
+	redirectURL.RawQuery = query.Encode()
+
+	c.Redirect(http.StatusSeeOther, redirectURL.String())
+	return true
+}
 
 // AuthenticationHome returns the authentication home message
 // @Summary Get authentication home
@@ -235,6 +258,13 @@ func GoogleCallbackHandler(c *gin.Context) {
 	jwtToken := helper.GenerateJWT(user.GenerateJwtUser())
 	refreshToken := helper.GenerateRefreshToken(user.GenerateJwtUser())
 	helper.SetAuthCookies(c, jwtToken, refreshToken)
+
+	if redirectToFrontend(c, config.FrontendAuthSuccessURL(), map[string]string{
+		"auth":     "success",
+		"provider": "google",
+	}) {
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"email":         userinfo.Email,

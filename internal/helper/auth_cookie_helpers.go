@@ -13,76 +13,47 @@ const (
 	RefreshTokenCookieName = "refresh_token"
 )
 
-func authCookiesEnabled() bool {
-	return strings.EqualFold(strings.TrimSpace(os.Getenv("AUTH_COOKIES_ENABLED")), "true")
-}
-
 func cookieSecure() bool {
-	if value := strings.TrimSpace(os.Getenv("COOKIE_SECURE")); value != "" {
-		return strings.EqualFold(value, "true")
-	}
-
-	frontendURL := strings.ToLower(strings.TrimSpace(os.Getenv("FRONTEND_URL")))
-	if strings.HasPrefix(frontendURL, "https://") &&
-		!strings.Contains(frontendURL, "localhost") &&
-		!strings.Contains(frontendURL, "127.0.0.1") {
-		return true
-	}
-
-	return false
+	return strings.EqualFold(os.Getenv("COOKIE_SECURE"), "true")
 }
 
 func cookieSameSite() http.SameSite {
 	switch strings.ToLower(strings.TrimSpace(os.Getenv("COOKIE_SAME_SITE"))) {
-	case "strict":
-		return http.SameSiteStrictMode
 	case "none":
 		return http.SameSiteNoneMode
-	case "lax":
+	case "strict":
+		return http.SameSiteStrictMode
+	default:
 		return http.SameSiteLaxMode
 	}
+}
 
-	if cookieSecure() {
-		return http.SameSiteNoneMode
-	}
-
-	return http.SameSiteLaxMode
+func cookieDomain() string {
+	return strings.TrimSpace(os.Getenv("COOKIE_DOMAIN"))
 }
 
 func SetAuthCookies(c *gin.Context, accessToken, refreshToken string) {
-	if !authCookiesEnabled() {
-		return
-	}
-
 	c.SetSameSite(cookieSameSite())
 
 	if accessToken != "" {
-		c.SetCookie(AccessTokenCookieName, accessToken, int(AccessTokenTTL.Seconds()), "/", "", cookieSecure(), true)
+		c.SetCookie(AccessTokenCookieName, accessToken, int(AccessTokenTTL.Seconds()), "/", cookieDomain(), cookieSecure(), true)
 	}
 
 	if refreshToken != "" {
-		c.SetCookie(RefreshTokenCookieName, refreshToken, int(RefreshTokenTTL.Seconds()), "/", "", cookieSecure(), true)
+		c.SetCookie(RefreshTokenCookieName, refreshToken, int(RefreshTokenTTL.Seconds()), "/", cookieDomain(), cookieSecure(), true)
 	}
 }
 
 func ClearAuthCookies(c *gin.Context) {
-	if !authCookiesEnabled() {
-		return
-	}
-
 	c.SetSameSite(cookieSameSite())
-	c.SetCookie(AccessTokenCookieName, "", -1, "/", "", cookieSecure(), true)
-	c.SetCookie(RefreshTokenCookieName, "", -1, "/", "", cookieSecure(), true)
+	c.SetCookie(AccessTokenCookieName, "", -1, "/", cookieDomain(), cookieSecure(), true)
+	c.SetCookie(RefreshTokenCookieName, "", -1, "/", cookieDomain(), cookieSecure(), true)
 }
 
 func ExtractAccessToken(c *gin.Context) string {
 	headerValue := strings.TrimSpace(c.GetHeader("Authorization"))
 	if strings.HasPrefix(strings.ToLower(headerValue), "bearer ") {
 		return strings.TrimSpace(headerValue[7:])
-	}
-
-	if !authCookiesEnabled() {
-		return ""
 	}
 
 	cookieValue, err := c.Cookie(AccessTokenCookieName)
@@ -94,11 +65,9 @@ func ExtractAccessToken(c *gin.Context) string {
 }
 
 func ExtractRefreshToken(c *gin.Context) string {
-	if authCookiesEnabled() {
-		cookieValue, err := c.Cookie(RefreshTokenCookieName)
-		if err == nil && strings.TrimSpace(cookieValue) != "" {
-			return strings.TrimSpace(cookieValue)
-		}
+	cookieValue, err := c.Cookie(RefreshTokenCookieName)
+	if err == nil && strings.TrimSpace(cookieValue) != "" {
+		return strings.TrimSpace(cookieValue)
 	}
 
 	var body struct {

@@ -25,7 +25,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"time"
 
 	"github.com/Marionvd/filia-project-backend/config"
 	"github.com/Marionvd/filia-project-backend/database"
@@ -42,8 +42,9 @@ func main() {
 	log.SetLevel(log.DebugLevel)
 	gin.SetMode(gin.DebugMode)
 	log.Debug("Loading env...")
-	if err := godotenv.Load(); err != nil {
-		log.Warn("No .env file found, using environment variables")
+	err := godotenv.Load()
+	if err != nil {
+		log.Warnf("No .env file loaded: %v", err)
 	}
 
 	config.GoogleConfig = config.SetUpGoogleConfig()
@@ -53,7 +54,20 @@ func main() {
 	engine := gin.Default()
 
 	log.Debug("Setting up routers...")
-	engine.Use(cors.New(config.CORSConfig()))
+	engine.Use(cors.New(cors.Config{
+		AllowOrigins: config.AllowedOrigins(),
+		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Content-Length", "Accept", "Authorization"},
+		ExposeHeaders: []string{
+			"Content-Length",
+			"X-Request-Id",
+			"X-RateLimit-Limit",
+			"X-RateLimit-Remaining",
+			"X-RateLimit-Reset",
+		},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Add middleware
 	engine.Use(middleware.RequestIDMiddleware())
@@ -63,14 +77,7 @@ func main() {
 
 	router.SetUpRoutes(engine)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	addr := fmt.Sprintf(":%s", port)
-	log.Infof("API running on %s/api", addr)
-	if err := engine.Run(addr); err != nil {
-		log.Fatal(err)
-	}
+	port := config.ServerPort()
+	log.Debugf("API running on port %s with allowed origins %v", port, config.AllowedOrigins())
+	engine.Run(fmt.Sprintf(":%s", port))
 }
