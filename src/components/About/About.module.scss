@@ -1,0 +1,72 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.about {
+  background-color: white;
+  border-radius: $radius-lg * 1.5;
+  padding: $space-xl;
+  margin-bottom: $space-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(125, 110, 97, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(125, 110, 97, 0.15);
+    border-color: rgba(125, 110, 97, 0.3);
+  }
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 $space-lg 0;
+  letter-spacing: -0.5px;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  color: $color-text;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  background: rgba(125, 110, 97, 0.02);
+
+  &:hover {
+    background: rgba(125, 110, 97, 0.08);
+    transform: translateX(5px);
+    color: #7D6E61;
+  }
+}
+
+.icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.contactItem:hover .icon {
+  transform: scale(1.2);
+}
+
+.contactText {
+  font-size: 16px;
+  color: $color-text;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+

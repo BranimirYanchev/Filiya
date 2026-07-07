@@ -1,0 +1,65 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.profile {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #F5F0E8 0%, #E8DDCF 100%);
+  padding: $space-xl 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $space-lg;
+}
+
+.mainContent {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  gap: $space-xl;
+  align-items: start;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.centerColumn {
+  min-width: 0;
+}
+
+.rightColumn {
+  min-width: 0;
+}
+
+@include respond(tablet) {
+  .mainContent {
+    grid-template-columns: 1fr;
+    gap: $space-lg;
+  }
+
+  .leftColumn {
+    order: 1;
+  }
+
+  .centerColumn {
+    order: 2;
+  }
+
+  .rightColumn {
+    order: 3;
+  }
+}
+
+@include respond(mobile) {
+  .container {
+    padding: 0 $space-md;
+  }
+
+  .profile {
+    padding: $space-md 0;
+  }
+}
+

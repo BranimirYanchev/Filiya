@@ -1,75 +1,66 @@
 # Filia Project Frontend
 
-This is the frontend part of the **Filia Project** — a React application styled with SCSS and structured with modular components.
+React frontend for Filia.
 
-## 🚀 Getting Started
+## Local Setup
 
-### Prerequisites
-- Node.js (16+ recommended)
-- npm or yarn
-
-### Installation
-Clone the repository and switch to the project folder:
-```bash
-git clone https://github.com/Marionvd/filia-project-frontend.git
-cd filia-project-frontend
-git checkout home-page
-```
-
-Install dependencies:
+1. Install dependencies:
 ```bash
 npm install
-# or
-yarn
 ```
 
-### Running the Project
-Start the development server:
+2. Create `.env` from `.env.example`:
+```bash
+cp .env.example .env
+```
+
+3. Set the backend API base URL:
+```env
+REACT_APP_API_BASE_URL=http://localhost:8080/api
+```
+
+4. Start the app:
 ```bash
 npm start
-# or
-yarn start
-```
-Once started, the app will be available at [http://localhost:3000](http://localhost:3000).
-
-### Building for Production
-```bash
-npm run build
-# or
-yarn build
-```
-This creates an optimized build inside the `build/` directory, ready for deployment.
-
-## 📂 Project Structure
-```
-src/
-├── components/         # Reusable components
-├── pages/              # Page-level views
-├── styles/             # SCSS modules and global styles
-├── assets/             # Images, fonts, and static assets
-├── App.jsx             # Root component
-└── index.js            # Entry point
-public/
-├── index.html
-└── ...
-package.json
-README.md
 ```
 
-## 📜 Available Scripts
-| Command          | Description                                |
-|------------------|--------------------------------------------|
-| `npm start`      | Run the development server with hot reload |
-| `npm run build`  | Create a production build                  |
-| `npm test`       | Run tests (if available)                   |
-| `npm run lint`   | Run linter/formatter (if configured)       |
+## Render Setup
 
-## 🌐 Deployment
-You can deploy this project using:
-- **Netlify** → Build command: `npm run build`, Publish directory: `build/`
-- **Vercel** → Framework: React, Output directory: `build/`
-- **GitHub Pages** → Run `npm run build` and deploy the contents of the `build/` folder
+Frontend Render environment:
+```env
+REACT_APP_API_BASE_URL=https://<your-backend-service>.onrender.com/api
+```
 
----
+Backend Render environment:
+```env
+FRONTEND_URL=https://<your-frontend-service>.onrender.com
+CORS_ALLOWED_ORIGINS=https://<your-frontend-service>.onrender.com
+COOKIE_SECURE=true
+COOKIE_SAME_SITE=none
+GOOGLE_REDIRECT_URL=https://<your-backend-service>.onrender.com/api/auth/google/callback
+FRONTEND_AUTH_SUCCESS_URL=https://<your-frontend-service>.onrender.com/auth/callback
+```
 
-💡 With this setup you can quickly run, develop, and deploy the Filia Project frontend.
+Google OAuth redirect URI:
+```text
+https://<your-backend-service>.onrender.com/api/auth/google/callback
+```
+
+Render static site rewrite rule:
+- Source: `/*`
+- Destination: `/index.html`
+- Action: `Rewrite`
+
+This repo also includes [render.yaml](/Users/branimiryanchev/Documents/GitHub/filia-project-frontend/render.yaml) with the same SPA rewrite.
+
+Important:
+- If your Render site was created manually in the dashboard and is not managed by Blueprint sync, adding `render.yaml` to the repo does not automatically update the existing service.
+- In that case you must add the rewrite rule manually in the Render Dashboard under `Static Site > Redirects/Rewrites`.
+
+Without that rewrite, direct visits or refreshes on `/feed`, `/profile`, or `/auth/callback` will return `404 Not Found`.
+
+## Scripts
+
+- `npm start`
+- `npm run build`
+- `npm test`

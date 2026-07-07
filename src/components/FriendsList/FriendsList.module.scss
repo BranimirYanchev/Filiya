@@ -1,0 +1,113 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.friendsList {
+  background-color: white;
+  border-radius: $radius-lg * 1.5;
+  padding: $space-xl;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(125, 110, 97, 0.1);
+  position: sticky;
+  top: $space-lg;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(125, 110, 97, 0.15);
+    border-color: rgba(125, 110, 97, 0.3);
+  }
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 $space-lg 0;
+  letter-spacing: -0.5px;
+}
+
+.friendsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.friendItem {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: rgba(125, 110, 97, 0.02);
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(125, 110, 97, 0.08);
+    transform: translateX(5px);
+  }
+}
+
+.friendAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 3px solid rgba(125, 110, 97, 0.2);
+  transition: all 0.3s ease;
+}
+
+.friendItem:hover .friendAvatar {
+  border-color: rgba(125, 110, 97, 0.4);
+  transform: scale(1.1);
+}
+
+.friendInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  flex: 1;
+  min-width: 0;
+}
+
+.friendName {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-text;
+  transition: color 0.3s ease;
+}
+
+.friendItem:hover .friendName {
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.friendEmail {
+  font-size: 14px;
+  color: #9ca3af;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.emptyState {
+  padding: $space-md;
+  border-radius: $radius-md;
+  background: rgba(125, 110, 97, 0.04);
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+@include respond(tablet) {
+  .friendsList {
+    position: static;
+  }
+}

@@ -1,0 +1,219 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.container {
+  padding: $space-xl * 2 $space-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #ffffff 0%, #F5F0E8 100%);
+}
+
+.separator {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #7D6E61 0%, #5C4A3B 100%);
+  margin-bottom: $space-xl * 2;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(125, 110, 97, 0.3);
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: $space-xl * 2;
+  text-align: left;
+  letter-spacing: -1px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-xl * 2;
+  align-items: start;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.questionItem {
+  background: white;
+  border-radius: $radius-md * 1.5;
+  border: 2px solid rgba(125, 110, 97, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    border-color: rgba(125, 110, 97, 0.3);
+    box-shadow: 0 4px 15px rgba(125, 110, 97, 0.1);
+  }
+}
+
+.questionButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-lg $space-xl;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: $color-text;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #7D6E61;
+  }
+}
+
+.questionText {
+  flex: 1;
+  padding-right: $space-md;
+}
+
+.icon {
+  font-size: 28px;
+  font-weight: 300;
+  color: #7D6E61;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(125, 110, 97, 0.1);
+}
+
+.questionButton[aria-expanded="true"] .icon {
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  color: white;
+  transform: rotate(180deg);
+}
+
+.answer {
+  padding: 0 $space-xl $space-lg $space-xl;
+  color: #6b7280;
+  line-height: 1.7;
+  animation: slideDown 0.3s ease-out;
+
+  p {
+    margin: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ctaCard {
+  background: white;
+  border: 2px solid rgba(125, 110, 97, 0.1);
+  border-radius: $radius-lg * 1.5;
+  padding: $space-xl * 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(125, 110, 97, 0.15);
+    border-color: rgba(125, 110, 97, 0.3);
+  }
+}
+
+.iconBox {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  border-radius: $radius-md * 1.5;
+  box-shadow: 0 4px 15px rgba(125, 110, 97, 0.3);
+}
+
+.ctaTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: $color-text;
+  margin: 0;
+}
+
+.ctaText {
+  color: #6b7280;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ctaButton {
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%) !important;
+  color: white !important;
+  padding: $space-md + 4px $space-xl !important;
+  border: none !important;
+  border-radius: $radius-md * 1.5 !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: $space-sm;
+  box-shadow: 0 4px 15px rgba(125, 110, 97, 0.4);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(125, 110, 97, 0.5);
+  }
+}
+
+@include respond(tablet) {
+  .title {
+    font-size: 36px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+  }
+}
+
+@include respond(mobile) {
+  .container {
+    padding: $space-xl $space-md;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: $space-xl;
+  }
+
+  .questionButton {
+    font-size: 16px;
+    padding: $space-md $space-lg;
+  }
+
+  .answer {
+    padding: 0 $space-lg $space-md $space-lg;
+  }
+
+  .ctaCard {
+    padding: $space-lg;
+  }
+}
+

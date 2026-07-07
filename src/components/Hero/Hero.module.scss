@@ -1,0 +1,91 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.content {
+  z-index: 1;
+  animation: slideUp 1s ease-out 0.3s both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 120px;
+  font-weight: 300;
+  color: white;
+  margin-bottom: $space-lg;
+  letter-spacing: 12px;
+  font-family: 'Georgia', serif;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 4px 30px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.subtitle {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+@include respond(tablet) {
+  .title {
+    font-size: 80px;
+    letter-spacing: 6px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+}
+
+@include respond(mobile) {
+  .title {
+    font-size: 60px;
+    letter-spacing: 4px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+}
+

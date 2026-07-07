@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filia</title>
+    <script>
+      (function preserveSpaRoute() {
+        var nextPath = window.location.pathname + window.location.search + window.location.hash;
+        window.sessionStorage.setItem('spa_redirect_path', nextPath);
+        window.location.replace('/');
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

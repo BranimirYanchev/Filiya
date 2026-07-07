@@ -1,0 +1,495 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.postCard {
+  background-color: white;
+  border-radius: $radius-lg * 1.5;
+  padding: $space-xl;
+  margin-bottom: $space-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(125, 110, 97, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(125, 110, 97, 0.15);
+    border-color: rgba(125, 110, 97, 0.3);
+  }
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-lg;
+  padding-bottom: $space-md;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  flex: 1;
+}
+
+.authorLink {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.authorLinkCompact {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.friendsIcon {
+  font-size: 18px;
+  margin-left: auto;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.postCard:hover .friendsIcon {
+  opacity: 1;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(125, 110, 97, 0.2);
+  transition: all 0.3s ease;
+}
+
+.postCard:hover .avatar {
+  border-color: rgba(125, 110, 97, 0.4);
+  transform: scale(1.05);
+}
+
+.avatarCompact {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(125, 110, 97, 0.2);
+  flex-shrink: 0;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  color: $color-text;
+  transition: color 0.3s ease;
+}
+
+.postCard:hover .userName {
+  background: linear-gradient(135deg, #7D6E61 0%, #5C4A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.timestamp {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.moreButton {
+  background: rgba(125, 110, 97, 0.05);
+  border: none;
+  font-size: 24px;
+  color: $color-text;
+  cursor: pointer;
+  padding: $space-xs $space-sm;
+  line-height: 1;
+  border-radius: $radius-sm;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(125, 110, 97, 0.15);
+    transform: scale(1.1);
+  }
+}
+
+.postContent {
+  margin-bottom: $space-lg;
+}
+
+.postText {
+  font-size: 24px;
+  color: $color-text;
+  margin: 0 0 $space-md 0;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.postBody {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 $space-lg 0;
+  line-height: 1.7;
+}
+
+.categoryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  margin: 0 0 $space-lg 0;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-xs $space-sm;
+  border-radius: 999px;
+  background: rgba(125, 110, 97, 0.08);
+  color: #5c4a3b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.postImage {
+  width: 100%;
+  border-radius: $radius-md * 1.5;
+  object-fit: cover;
+  max-height: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.postCard:hover .postImage {
+  transform: scale(1.02);
+}
+
+.postEngagement {
+  display: flex;
+  gap: $space-xl;
+  padding: $space-md 0;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.engagementItem {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  cursor: pointer;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-sm;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(125, 110, 97, 0.05);
+    transform: translateY(-2px);
+  }
+}
+
+.engagementIcon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.engagementItem:hover .engagementIcon {
+  transform: scale(1.2);
+}
+
+.engagementCount {
+  font-size: 16px;
+  color: $color-text;
+  font-weight: 600;
+}
+
+.profileActionRow {
+  padding-top: $space-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+  flex-wrap: wrap;
+}
+
+.profileActionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  color: #7d6e61;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: #5c4a3b;
+    transform: translateX(2px);
+  }
+}
+
+.seeMoreButton {
+  background: none;
+  border: none;
+  color: #5c4a3b;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: #7d6e61;
+    transform: translateX(2px);
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(33, 28, 24, 0.56);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  padding: $space-xl;
+}
+
+.modalCard {
+  position: relative;
+  width: min(1120px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #fffaf4;
+  border-radius: 40px;
+  padding: 48px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 68px;
+  height: 68px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  color: #1f2937;
+  font-size: 54px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.modalCategoryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  margin-bottom: $space-md;
+}
+
+.modalCategoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-xs $space-sm;
+  border-radius: 999px;
+  color: #7d6e61;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.modalTitle {
+  margin: 0 0 $space-sm 0;
+  color: #1f2937;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1.05;
+  font-weight: 800;
+  max-width: 900px;
+}
+
+.modalTimestamp {
+  margin: 0 0 $space-xl 0;
+  color: #8090a0;
+  font-size: 18px;
+}
+
+.modalAuthorCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-lg;
+  padding: $space-lg;
+  margin: 0 0 $space-xl 0;
+  border-radius: 24px;
+  background: rgba(125, 110, 97, 0.06);
+  border: 1px solid rgba(125, 110, 97, 0.12);
+}
+
+.modalAuthorMeta {
+  min-width: 0;
+}
+
+.modalAuthorHint {
+  margin: $space-sm 0 0 0;
+  color: #6f6257;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.modalProfileLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #5c4a3b;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(92, 74, 59, 0.24);
+  }
+}
+
+.modalContent {
+  margin: 0 0 40px 0;
+  color: #374151;
+  font-size: 22px;
+  line-height: 1.7;
+  max-width: 900px;
+}
+
+.attachmentsSection {
+  margin-top: 16px;
+}
+
+.attachmentsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+  margin-bottom: $space-md;
+}
+
+.attachmentsTitle {
+  margin: 0;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.attachmentsCount {
+  color: #8090a0;
+  font-size: 24px;
+}
+
+.attachmentGroup {
+  margin-top: $space-lg;
+}
+
+.attachmentGroupTitle {
+  margin: 0 0 $space-md 0;
+  color: #7d6e61;
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.attachmentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $space-lg;
+}
+
+.attachmentCard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  text-decoration: none;
+  color: inherit;
+}
+
+.attachmentImage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 22px;
+  background: rgba(125, 110, 97, 0.08);
+}
+
+.attachmentName {
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@include respond(tablet) {
+  .modalCard {
+    padding: 36px 28px;
+  }
+
+  .modalCloseButton {
+    top: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    font-size: 42px;
+  }
+
+  .modalAuthorCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@include respond(mobile) {
+  .modalOverlay {
+    padding: $space-md;
+  }
+
+  .modalCard {
+    padding: 28px 20px;
+    border-radius: 28px;
+  }
+
+  .modalTitle {
+    font-size: 38px;
+    padding-right: 56px;
+  }
+
+  .modalTimestamp {
+    font-size: 16px;
+  }
+
+  .modalContent {
+    font-size: 18px;
+  }
+
+  .attachmentsTitle {
+    font-size: 24px;
+  }
+}
