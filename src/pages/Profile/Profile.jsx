@@ -6,7 +6,6 @@ import {
   CircleEllipsis,
   Mail,
   MessageCircle,
-  Facebook,
   Github,
   Heart,
   Instagram,
@@ -59,7 +58,7 @@ const PROFILE_STORAGE_KEY = 'filia-profile-draft';
 
 const SOCIAL_FIELDS = [
   { key: 'website', label: 'Уебсайт', icon: Globe, placeholder: 'https://example.com' },
-  { key: 'facebook', label: 'Facebook', icon: Facebook, placeholder: 'https://facebook.com/...' },
+  { key: 'facebook', label: 'Facebook', icon: Link2, placeholder: 'https://facebook.com/...' },
   { key: 'instagram', label: 'Instagram', icon: Instagram, placeholder: 'https://instagram.com/...' },
   { key: 'discord', label: 'Discord', icon: MessageSquareMore, placeholder: 'https://discord.gg/...' },
   { key: 'linkedin', label: 'LinkedIn', icon: Linkedin, placeholder: 'https://linkedin.com/in/...' },
