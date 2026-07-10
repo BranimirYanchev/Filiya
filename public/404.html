@@ -6,12 +6,10 @@
     <title>Redirecting...</title>
     <script>
       (function redirectToSpaEntry() {
-        var publicUrl = '%PUBLIC_URL%';
-        var basePath = publicUrl && publicUrl !== '.' ? publicUrl : '';
         var nextPath = window.location.pathname + window.location.search + window.location.hash;
 
         window.sessionStorage.setItem('spa_redirect_path', nextPath);
-        window.location.replace(basePath + '/');
+        window.location.replace('/');
       })();
     </script>
   </head>
