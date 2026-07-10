@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Filia</title>
+    <title>Redirecting...</title>
     <script>
-      (function preserveSpaRoute() {
+      (function redirectToSpaEntry() {
+        var publicUrl = '%PUBLIC_URL%';
+        var basePath = publicUrl && publicUrl !== '.' ? publicUrl : '';
         var nextPath = window.location.pathname + window.location.search + window.location.hash;
+
         window.sessionStorage.setItem('spa_redirect_path', nextPath);
-        window.location.replace('/');
+        window.location.replace(basePath + '/');
       })();
     </script>
   </head>

@@ -6,17 +6,13 @@ import {
   CircleEllipsis,
   Mail,
   MessageCircle,
-  Github,
   Heart,
-  Instagram,
   Link2,
-  Linkedin,
   MessageSquareMore,
   PencilLine,
   Share2,
   Send,
   UserRound,
-  Youtube,
   X
 } from 'lucide-react';
 import styles from './Profile.module.scss';
@@ -59,11 +55,11 @@ const PROFILE_STORAGE_KEY = 'filia-profile-draft';
 const SOCIAL_FIELDS = [
   { key: 'website', label: 'Уебсайт', icon: Globe, placeholder: 'https://example.com' },
   { key: 'facebook', label: 'Facebook', icon: Link2, placeholder: 'https://facebook.com/...' },
-  { key: 'instagram', label: 'Instagram', icon: Instagram, placeholder: 'https://instagram.com/...' },
+  { key: 'instagram', label: 'Instagram', icon: Link2, placeholder: 'https://instagram.com/...' },
   { key: 'discord', label: 'Discord', icon: MessageSquareMore, placeholder: 'https://discord.gg/...' },
-  { key: 'linkedin', label: 'LinkedIn', icon: Linkedin, placeholder: 'https://linkedin.com/in/...' },
-  { key: 'github', label: 'GitHub', icon: Github, placeholder: 'https://github.com/...' },
-  { key: 'youtube', label: 'YouTube', icon: Youtube, placeholder: 'https://youtube.com/@...' },
+  { key: 'linkedin', label: 'LinkedIn', icon: Link2, placeholder: 'https://linkedin.com/in/...' },
+  { key: 'github', label: 'GitHub', icon: Link2, placeholder: 'https://github.com/...' },
+  { key: 'youtube', label: 'YouTube', icon: Link2, placeholder: 'https://youtube.com/@...' },
   { key: 'telegram', label: 'Telegram', icon: Send, placeholder: 'https://t.me/...' },
   { key: 'x', label: 'X / Twitter', icon: Link2, placeholder: 'https://x.com/...' },
   { key: 'tiktok', label: 'TikTok', icon: Link2, placeholder: 'https://tiktok.com/@...' }
